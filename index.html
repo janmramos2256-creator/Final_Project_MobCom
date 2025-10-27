@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpportunityHub - Inclusive Employment App</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="header-title">OpportunityHub</h1>
+            <p class="header-subtitle">Connecting you to opportunities</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Job Board Tab -->
+            <div id="jobsTab" class="tab-content active">
+                <div class="section-header">
+                    <h2>Job Board</h2>
+                    <p>Find opportunities that match your needs</p>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="search-filter-section">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search jobs..." class="search-input">
+                    </div>
+                    
+                    <button id="filterBtn" class="filter-btn">
+                        <i data-lucide="filter"></i>
+                        Filters
+                        <span id="filterBadge" class="filter-badge hidden">Active</span>
+                    </button>
+
+                    <div id="filterPanel" class="filter-panel hidden">
+                        <div class="filter-group">
+                            <label>Job Type</label>
+                            <select id="jobTypeFilter">
+                                <option value="all">All Types</option>
+                                <option value="part-time">Part-time</option>
+                                <option value="full-time">Full-time</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Location</label>
+                            <select id="locationFilter">
+                                <option value="all">All Locations</option>
+                                <option value="remote">Remote</option>
+                                <option value="quezon">Quezon City</option>
+                                <option value="makati">Makati</option>
+                                <option value="pasig">Pasig</option>
+                                <option value="taguig">Taguig/BGC</option>
+                                <option value="manila">Manila</option>
+                                <option value="mandaluyong">Mandaluyong</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Experience Level</label>
+                            <select id="experienceFilter">
+                                <option value="all">All Levels</option>
+                                <option value="entry-level">Entry-level</option>
+                                <option value="no experience">No experience needed</option>
+                            </select>
+                        </div>
+
+                        <button id="clearFiltersBtn" class="clear-filters-btn">Clear All Filters</button>
+                    </div>
+                </div>
+
+                <!-- Job Listings -->
+                <div id="jobListings" class="job-listings"></div>
+            </div>
+
+            <!-- Community Chat Tab -->
+            <div id="chatTab" class="tab-content">
+                <div class="chat-header">
+                    <h2>Community Chat</h2>
+                    <p>Connect with others seeking opportunities</p>
+                </div>
+                
+                <div id="chatMessages" class="chat-messages"></div>
+
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type your message..." class="chat-input">
+                    <button id="sendBtn" class="send-btn">
+                        <i data-lucide="send"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Local Partners Tab -->
+            <div id="partnersTab" class="tab-content">
+                <div class="section-header">
+                    <h2>Local Partners</h2>
+                    <p>Verified organizations hiring in your community</p>
+                </div>
+
+                <div id="partnersList" class="partners-list"></div>
+
+                <div class="partner-cta">
+                    <h3>Want to become a partner?</h3>
+                    <p>If you're a local business or charity interested in inclusive hiring, we'd love to work with you.</p>
+                    <button class="cta-btn">Apply as Partner</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-tab="jobs">
+                <i data-lucide="briefcase"></i>
+                <span>Jobs</span>
+            </button>
+            
+            <button class="nav-btn" data-tab="chat">
+                <i data-lucide="message-circle"></i>
+                <span>Chat</span>
+            </button>
+            
+            <button class="nav-btn" data-tab="partners">
+                <i data-lucide="users"></i>
+                <span>Partners</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
