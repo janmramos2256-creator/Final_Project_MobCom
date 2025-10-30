@@ -152,7 +152,8 @@ document.addEventListener("DOMContentLoaded", function () {
   initJobBoard();
   initChat();
   initPartners();
-  initModal(); // Added modal initialization
+  initModal();
+  initPartnerModal();
   renderJobs();
   renderChat();
   renderPartners();
@@ -286,7 +287,7 @@ function renderJobs() {
 function initApplyButtons() {
   document.querySelectorAll(".apply-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      e.stopPropagation(); // Prevent event bubbling
+      e.stopPropagation();
       showApplyModal(btn.dataset.title);
     });
   });
@@ -305,7 +306,6 @@ function initModal() {
   const closeModal = document.getElementById("closeModal");
   const applyForm = document.getElementById("applyForm");
 
-  // Close modal events
   if (closeModal) {
     closeModal.addEventListener("click", () => modal.classList.add("hidden"));
   }
@@ -314,7 +314,6 @@ function initModal() {
     if (e.target === modal) modal.classList.add("hidden");
   });
 
-  // Form submission
   applyForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById('applicantName').value.trim();
@@ -403,14 +402,12 @@ function renderPartners() {
     .join("");
   lucide.createIcons();
 
-  // Initialize partner view jobs buttons
   document.querySelectorAll(".view-jobs-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const partnerId = btn.dataset.id;
       const partner = partners.find(p => p.id == partnerId);
       const card = e.target.closest(".partner-card");
       
-      // Remove existing popup if any
       const existing = card.querySelector(".job-hover-popup");
       if (existing) existing.remove();
 
@@ -425,8 +422,54 @@ function renderPartners() {
       card.appendChild(popup);
       lucide.createIcons();
 
-      // Initialize the apply button in the popup
       initApplyButtons();
     });
+  });
+}
+
+// ===================== PARTNER MODAL =====================
+function initPartnerModal() {
+  const partnerModal = document.getElementById("partnerModal");
+  const applyPartnerBtn = document.getElementById("applyPartnerBtn");
+  const closePartnerModal = document.getElementById("closePartnerModal");
+  const partnerForm = document.getElementById("partnerForm");
+
+  applyPartnerBtn.addEventListener("click", () => {
+    partnerModal.classList.remove("hidden");
+  });
+
+  closePartnerModal.addEventListener("click", () => {
+    partnerModal.classList.add("hidden");
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === partnerModal) {
+      partnerModal.classList.add("hidden");
+    }
+  });
+
+  partnerForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    const orgName = document.getElementById('orgName').value.trim();
+    const orgType = document.getElementById('orgType').value;
+    const contactPerson = document.getElementById('contactPerson').value.trim();
+    const email = document.getElementById('partnerEmail').value.trim();
+    const phone = document.getElementById('partnerPhone').value.trim();
+    const location = document.getElementById('partnerLocation').value.trim();
+    const openings = document.getElementById('partnerOpenings').value;
+    const description = document.getElementById('partnerDescription').value.trim();
+    
+    if (!orgName || !orgType || !contactPerson || !email || !phone || !location || !openings || !description) {
+      return showPopup("⚠️ Please complete all fields.");
+    }
+    
+    if (!/^[0-9]{11}$/.test(phone)) {
+      return showPopup("⚠️ Invalid phone number.");
+    }
+    
+    showPopup(`✅ Partnership application submitted successfully! We'll contact you soon.`);
+    partnerForm.reset();
+    partnerModal.classList.add("hidden");
   });
 }
