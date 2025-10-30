@@ -906,26 +906,36 @@ body::before {
   border-radius: 12px;
   max-width: 500px;
   width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
   border: 3px solid var(--gold);
   box-shadow: 0 8px 32px rgba(196, 30, 58, 0.6);
   animation: modalSlideIn 0.4s ease;
   position: relative;
 }
 
+/* Custom scrollbar for modal */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: var(--deep-black);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--primary-red);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
 @keyframes modalSlideIn {
   from { opacity: 0; transform: scale(0.9) translateY(-20px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.close-btn {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  font-size: 2rem;
-  color: var(--gold);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  line-height: 1;
 }
 
 .close-btn:hover {
@@ -958,7 +968,10 @@ body::before {
 .modal-content input[type="text"],
 .modal-content input[type="tel"],
 .modal-content input[type="email"],
-.modal-content input[type="file"] {
+.modal-content input[type="number"],
+.modal-content input[type="file"],
+.modal-content select,
+.modal-content textarea {
   background: var(--deep-black);
   border: 2px solid var(--gold);
   border-radius: 6px;
@@ -966,12 +979,108 @@ body::before {
   color: var(--paper-white);
   font-size: 1rem;
   transition: all 0.3s ease;
+  width: 100%;
+  font-family: inherit;
 }
 
-.modal-content input:focus {
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
   outline: none;
   border-color: var(--primary-red);
   box-shadow: 0 0 12px rgba(196, 30, 58, 0.3);
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: rgba(245, 241, 232, 0.5);
+}
+
+/* Select specific styling */
+.modal-content select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+  background-color: var(--deep-black);
+}
+
+.modal-content select option {
+  background: var(--dark-gray);
+  color: var(--paper-white);
+  padding: 8px;
+}
+
+.modal-content select option:first-child {
+  color: rgba(245, 241, 232, 0.6);
+}
+
+/* Fix select placeholder color */
+.modal-content select:invalid,
+.modal-content select[value=""] {
+  color: rgba(245, 241, 232, 0.5);
+}
+
+/* Textarea specific styling */
+.modal-content textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.modal-content textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content textarea::-webkit-scrollbar-track {
+  background: var(--dark-gray);
+  border-radius: 4px;
+}
+
+.modal-content textarea::-webkit-scrollbar-thumb {
+  background: var(--primary-red);
+  border-radius: 4px;
+}
+
+.modal-content textarea::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Number input - remove default arrows */
+.modal-content input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.modal-content input[type="number"]::-webkit-inner-spin-button,
+.modal-content input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Custom file input styling */
+.modal-content input[type="file"] {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.modal-content input[type="file"]::file-selector-button {
+  background: var(--primary-red);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 12px;
+  transition: all 0.3s ease;
+}
+
+.modal-content input[type="file"]::file-selector-button:hover {
+  background: var(--gold);
+  color: var(--deep-black);
 }
 
 .submit-btn {
@@ -1084,6 +1193,14 @@ body::before {
 
   .nav-btn span {
     font-size: 0.7rem;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
   }
 }
 
@@ -1221,6 +1338,7 @@ body::before {
 /* Focus ring with Japanese aesthetic */
 input:focus,
 select:focus,
+textarea:focus,
 button:focus {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
@@ -1306,4 +1424,60 @@ button:focus {
   50% {
     transform: scale(1.05);
   }
+}
+
+/* Modal backdrop pattern */
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(139, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  animation: subtleShift 20s ease-in-out infinite alternate;
+}
+
+
+
+/* Disabled state */
+input:disabled,
+select:disabled,
+textarea:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading state for buttons */
+@keyframes buttonLoading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Selection styling */
+::selection {
+  background: var(--primary-red);
+  color: var(--gold);
+}
+
+::-moz-selection {
+  background: var(--primary-red);
+  color: var(--gold);
+}btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 2rem;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  line-height: 1;
+  z-index: 10;
 }
